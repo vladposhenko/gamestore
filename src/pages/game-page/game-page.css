@@ -1,0 +1,21 @@
+.game-page__content {
+    display:flex;
+}
+
+.game-page__left {
+    width: 70%;
+}
+
+.game-page__right {
+    width: 30%;
+}
+
+.game-page__order-game {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
+}
+
+.game-genres {
+    display: flex;
+}

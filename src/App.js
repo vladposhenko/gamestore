@@ -8,6 +8,9 @@ import {HomePage} from "./pages/home-page";
 import {Header} from "./components/header";
 import {Provider} from "react-redux";
 import {store} from "./redux";
+import {GamePage} from "./pages/game-page";
+import {GameOrder} from "./components/game-order";
+import {OrderPage} from "./pages/order-page";
 
 function App() {
   return (
@@ -17,6 +20,8 @@ function App() {
                   <Header/>
                   <Routes>
                       <Route path="/" element={<HomePage to="/home" />} />
+                      <Route path="/app/:title" element={<GamePage to="/app/:title" />} />
+                      <Route path="/order" element={<OrderPage to="/order" />} />
                   </Routes>
               </div>
           </BrowserRouter>
