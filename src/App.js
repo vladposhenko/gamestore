@@ -20,7 +20,7 @@ function App() {
                   <Header/>
                   <Routes>
                       <Route path="/" element={<HomePage to="/home" />} />
-                      <Route path="/app/:title" element={<GamePage to="/app/:title" />} />
+                      <Route path="/app/:id" element={<GamePage to="/app/:id" />} />
                       <Route path="/order" element={<OrderPage to="/order" />} />
                   </Routes>
               </div>

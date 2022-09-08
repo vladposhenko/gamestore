@@ -1,13 +1,24 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import './game-page.css'
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {GameCover} from "../../components/game-cover";
 import {GameGenre} from "../../components/game-genre/GameGenre";
 import {GameOrder} from "../../components/game-order";
+import {useNavigate, useParams} from "react-router-dom";
+import {fetchGame} from "../../redux/games/reducer";
+import {Loader} from "../../components/loader/Loader";
 
 export const GamePage = () => {
+    const params = useParams()
+    const dispatch = useDispatch()
+    let status = useSelector(state => state.games.gameStatus)
+    useEffect(() => {
+        dispatch(fetchGame(params.id))
+    },[dispatch])
+
     const game = useSelector(state => state.games.currentGame)
-    if(!game) return null
+    if(status === 'loading' || !status) return <Loader/>
+    debugger;
     return (
         <div className='game-page'>
             <h1 className='game-page__title'>{game.title}</h1>

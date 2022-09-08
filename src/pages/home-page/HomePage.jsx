@@ -1,6 +1,10 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import './home-page.css'
 import {GameItem} from "../../components/game-item";
+import {gamesAPI} from "../../api";
+import {useDispatch, useSelector} from "react-redux";
+import {fetchGames} from "../../redux/games/reducer";
+import {Loader} from "../../components/loader/Loader";
 
 const GAMES = [
     {
@@ -24,7 +28,7 @@ const GAMES = [
     {
         image: '/game-covers/life_is_strange_true_colors.jpeg',
         title: 'Life is Strange True Colors',
-        genres: ['Глубокий сюжет', 'Протагонистка'],
+        genres: ["Глубокий сюжет", "Протагонистка"],
         video: 'https://www.youtube.com/embed/b6CkzwVAr0M',
         price: 3021,
         id: 3,
@@ -33,7 +37,7 @@ const GAMES = [
     {
         image: '/game-covers/gta_v.jpeg',
         title: 'Grand Theft Auto V',
-        genres: ['Открытый мир', 'Экшен'],
+        genres: ["Открытый мир", "Экшен"],
         video: 'https://www.youtube.com/embed/QkkoHAzjnUs',
         price: 789,
         id: 4,
@@ -43,7 +47,7 @@ const GAMES = [
         image: '/game-covers/rainbow_siege.jpeg',
         title: 'Tom Clancy\'s Rainbow Six® Siege',
         video: 'https://www.youtube.com/embed/6wlvYh0h63k',
-        genres: ['Тактика', 'Шутер'],
+        genres: ["Тактика", "Шутер"],
         price: 982,
         id: 5,
         description: 'Tom Clancy\'s Rainbow Six Осада – это продолжение нашумевшего шутера от первого лица, разработанного студией Ubisoft Montreal.'
@@ -51,7 +55,7 @@ const GAMES = [
     {
         image: '/game-covers/assassins_creed_valhalla.png',
         title: 'Assassin’s Creed Valhalla',
-        genres: ['Паркур', 'РПГ', 'Открытый мир'],
+        genres: ["Паркур", "РПГ", "Открытый мир"],
         video: 'https://www.youtube.com/embed/ssrNcwxALS4',
         price: 2863,
         id: 6,
@@ -59,11 +63,21 @@ const GAMES = [
     },
 ]
 
-
 export const HomePage = () => {
+    let dispatch = useDispatch()
+    let status = useSelector(state => state.games.status)
+    let games = useSelector(state => state.games.items)
+
+    useEffect(() => {
+        dispatch(fetchGames())
+    },[])
+
     return (
         <div className='home-page'>
-            {GAMES.map(game => <GameItem key={game.id} game={game} />)}
+            {status === 'loading'
+                ? <Loader/>
+                : games.map(game => <GameItem key={game.id} game={game} />)
+            }
         </div>
     );
 };
