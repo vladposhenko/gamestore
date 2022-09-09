@@ -6,11 +6,13 @@ import {
     Switch} from "react-router-dom";
 import {HomePage} from "./pages/home-page";
 import {Header} from "./components/header";
-import {Provider} from "react-redux";
+import {Provider, useDispatch} from "react-redux";
 import {store} from "./redux";
 import {GamePage} from "./pages/game-page";
 import {GameOrder} from "./components/game-order";
 import {OrderPage} from "./pages/order-page";
+import {useEffect} from "react";
+import {getGamesFromCart} from "./redux/cart/reducer";
 
 function App() {
   return (

@@ -6,7 +6,7 @@ import {gamesAPI as gamesApi} from "../../api";
 export const fetchGames = createAsyncThunk (
     'games/fetchGames',
     async function () {
-        const response = await axios.get('https://631243c3f5cba498da900054.mockapi.io/games')
+        const response = await gamesApi.getGames()
         console.log(response)
         return await response.data;
     }
@@ -15,7 +15,8 @@ export const fetchGames = createAsyncThunk (
 export const fetchGame = createAsyncThunk (
     'games/fetchGame',
     async (gameId) => {
-        const response = await axios.get('https://631243c3f5cba498da900054.mockapi.io/games/' + gameId)
+        debugger;
+        const response = await gamesApi.getGame(gameId)
         return await response.data
     }
 )

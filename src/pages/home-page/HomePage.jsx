@@ -5,6 +5,7 @@ import {gamesAPI} from "../../api";
 import {useDispatch, useSelector} from "react-redux";
 import {fetchGames} from "../../redux/games/reducer";
 import {Loader} from "../../components/loader/Loader";
+import {getGamesFromCart} from "../../redux/cart/reducer";
 
 const GAMES = [
     {
@@ -70,6 +71,7 @@ export const HomePage = () => {
 
     useEffect(() => {
         dispatch(fetchGames())
+        dispatch(getGamesFromCart())
     },[])
 
     return (

@@ -21,3 +21,15 @@
 .btn--medium {
     font-size: 18px;
 }
+
+.btn-disabled {
+    opacity: 0.5;
+}
+
+button img {
+    position: absolute;
+}
+
+
+
+

@@ -1,9 +1,38 @@
-import { createSlice } from '@reduxjs/toolkit'
+import {createAsyncThunk, createSlice} from '@reduxjs/toolkit'
+import {cartAPI} from "../../api";
+
+export const saveInCart = createAsyncThunk(
+    'cart/saveInCart',
+    async function (game) {
+        await cartAPI.postGame(game)
+        toggleCartProgress(game.id)
+        return game
+    }
+)
+
+export const deleteFromCart = createAsyncThunk(
+    'cart/deleteFromCart',
+    async function (gameId) {
+        await cartAPI.deleteGame(gameId)
+        return gameId
+    }
+)
+
+export const getGamesFromCart = createAsyncThunk(
+    'cart/getGamesFromCart',
+    async function () {
+        let result = await cartAPI.getGamesFromCart()
+        return result.data
+    }
+)
+
 
 const cartSlice = createSlice({
     name:'cart',
     initialState: {
-        itemsInCart: []
+        itemsInCart: [],
+        cartStatus: null,
+        cartInProgress: []
     },
     reducers: {
         setItemInCart:(state,action) => {
@@ -11,10 +40,41 @@ const cartSlice = createSlice({
         },
         deleteItemFromCart: (state, action) => {
             state.itemsInCart = state.itemsInCart.filter(game => game.id !== action.payload)
+        },
+        toggleCartProgress: (state, action) => {
+            state.cartStatus === 'loading'
+            ? state.cartInProgress.push(action.payload)
+            : state.cartInProgress = state.cartInProgress.filter(id =>  +id !== +action.payload)
+            console.log(action.payload)
         }
+    },
+    extraReducers: {
+        [saveInCart.pending]: (state) => {
+            state.cartStatus = 'loading'
+        },
+        [saveInCart.fulfilled]: (state, action) => {
+            state.cartStatus = 'completed'
+            toggleCartProgress(action.payload.id)
+            state.cartInProgress = state.cartInProgress.filter(id => id !== action.payload.id)
+            state.itemsInCart.push(action.payload)
+        },
+        [deleteFromCart.pending]: (state) => {
+            state.cartStatus = 'loading'
+        },
+        [deleteFromCart.fulfilled]: (state, action) => {
+            state.itemsInCart = state.itemsInCart.filter(game => game.id !== action.payload)
+            state.cartInProgress = state.cartInProgress.filter(id => id !== action.payload)
+        },
+        [getGamesFromCart.pending]: (state) => {
+            state.cartStatus = 'loading'
+        },
+        [getGamesFromCart.fulfilled]: (state, action) => {
+            state.cartStatus = 'completed'
+            state.itemsInCart = action.payload
+        },
     }
 })
 
-export const { setItemInCart, deleteItemFromCart } = cartSlice.actions
+export const { setItemInCart, deleteItemFromCart, toggleCartProgress } = cartSlice.actions
 
 export default cartSlice.reducer
