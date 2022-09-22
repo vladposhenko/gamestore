@@ -29,11 +29,16 @@ const gamesSlice = createSlice({
         status: null,
         error: null,
         gameStatus:null,
+        currentPage: 1,
+        gamesPerPage: 6,
     },
     reducers: {
         setCurrentGame:(state,action) => {
             state.currentGame = action.payload
         },
+        setCurrentPage:(state,action) => {
+            state.currentPage = action.payload
+        }
     },
     extraReducers: {
         [fetchGames.pending]: (state) => {
@@ -54,6 +59,6 @@ const gamesSlice = createSlice({
     }
 })
 
-export const { setCurrentGame } = gamesSlice.actions
+export const { setCurrentGame, setCurrentPage } = gamesSlice.actions
 
 export default gamesSlice.reducer

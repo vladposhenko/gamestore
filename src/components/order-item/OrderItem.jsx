@@ -2,16 +2,19 @@ import React from 'react';
 import {GameCover} from "../game-cover";
 import './order-item.css'
 import {useDispatch} from "react-redux";
-import {deleteFromCart, deleteItemFromCart} from "../../redux/cart/reducer";
+import {deleteItemFromCart} from "../../redux/cart/reducer";
 import {AiOutlineCloseCircle} from "@react-icons/all-files/ai/AiOutlineCloseCircle";
+import {useNavigate} from "react-router-dom";
 
 export const OrderItem = ({ game }) => {
     const dispatch = useDispatch();
-    const handleDeleteClick = () => {
-        dispatch(deleteFromCart(game.id))
+    const navigate = useNavigate()
+    const handleDeleteClick = (e) => {
+        e.stopPropagation()
+        dispatch(deleteItemFromCart(game.id))
     }
     return (
-        <div className='order-item'>
+        <div className='order-item' onClick={(e) => navigate(`/app/${game.id}`) }>
             <div className="order-item__cover">
                 <GameCover image={game.image} />
             </div>

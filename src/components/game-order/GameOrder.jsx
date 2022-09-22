@@ -1,29 +1,28 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {Button} from "../button/Button";
 import './game-order.css'
 import {useDispatch, useSelector} from "react-redux";
 import {
-    deleteFromCart,
     deleteItemFromCart,
-    saveInCart,
     setItemInCart,
     toggleCartProgress
 } from "../../redux/cart/reducer";
-import {Loader} from "../loader/Loader";
+import {getItemsFromStorage} from "../utils";
 export const GameOrder = ({game}) => {
     const dispatch = useDispatch()
     const items = useSelector(state => state.cart.itemsInCart)
-    const cartStatus = useSelector(state => state.cart.cartStatus)
-    const isItemInCart = items.some(item => item.id === game.id)
+    const storageItems = getItemsFromStorage()
+    const isItemInCart = storageItems.some(item => item.id === game.id)
     const cartInProgress = useSelector(state => state.cart.cartInProgress)
     const handleClick = (e) => {
         e.stopPropagation()
-        isItemInCart ? dispatch(deleteFromCart(game.id)) : dispatch(saveInCart(game))
+        if(isItemInCart) {
+            dispatch(deleteItemFromCart(game.id))
+        } else {
+            dispatch(setItemInCart(game))
+        }
         dispatch(toggleCartProgress(game.id))
-        // setItemInCart(game)
     }
-
-
 
     return (
         <div className='game-order'>

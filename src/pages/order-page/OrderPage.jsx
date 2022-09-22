@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from "react-redux";
-import {calcTotalPrice} from "../../components/utils";
+import {calcTotalPrice, getItemsFromStorage} from "../../components/utils";
 import {OrderItem} from "../../components/order-item";
 import {getGamesFromCart} from "../../redux/cart/reducer";
 import {Loader} from "../../components/loader/Loader";
@@ -21,7 +21,7 @@ export const OrderPage = () => {
     if(items.length < 1) {
         return <h2>Ваша корзина пуста</h2>
     }
-
+    console.log('redner orderpage')
     return (
         <div className='order-page'>
             <div className="order-page__left">

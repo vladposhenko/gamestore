@@ -1,0 +1,29 @@
+.pagination {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    justify-content: center;
+}
+
+.page-item {
+    list-style: none;
+    background-color: rgb(85,88,237);
+    color: white;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: all ease 0.5s;
+}
+
+.page-item:hover {
+    background-color: rgb(88,82,84);
+}
+
+.pagination__wrapper {
+    width: 90%;
+}
+
+.page-link__active {
+    background-color: rgb(88,82,84);
+    transform: scale(95%);
+}

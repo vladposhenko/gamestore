@@ -1,5 +1,6 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit'
 import {cartAPI} from "../../api";
+import {getItemsFromStorage} from "../../components/utils";
 
 export const saveInCart = createAsyncThunk(
     'cart/saveInCart',
@@ -21,8 +22,8 @@ export const deleteFromCart = createAsyncThunk(
 export const getGamesFromCart = createAsyncThunk(
     'cart/getGamesFromCart',
     async function () {
-        let result = await cartAPI.getGamesFromCart()
-        return result.data
+        let result = await getItemsFromStorage()
+        return result
     }
 )
 
@@ -37,9 +38,11 @@ const cartSlice = createSlice({
     reducers: {
         setItemInCart:(state,action) => {
             state.itemsInCart.push(action.payload)
+            localStorage.setItem('cart', JSON.stringify([...state.itemsInCart]))
         },
         deleteItemFromCart: (state, action) => {
             state.itemsInCart = state.itemsInCart.filter(game => game.id !== action.payload)
+            localStorage.setItem('cart', JSON.stringify([...state.itemsInCart]))
         },
         toggleCartProgress: (state, action) => {
             state.cartStatus === 'loading'
